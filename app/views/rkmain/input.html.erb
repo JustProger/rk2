@@ -1,0 +1,8 @@
+<h1>Rkmain#input</h1>
+<%= form_with url: '/rkmain/show', method: :get do |form| %>
+  <%= form.label :query, "Введите данные" %>
+  <br/>
+  <%= form.text_field :query, value: '1 2 3 4.5 -3.2 -5 -1.9 9' %>
+  <br/>
+  <%= form.submit "Обработать" %>
+<% end %>

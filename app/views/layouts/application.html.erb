@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Rk2</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags %>
+  </head>
+
+  <body>
+    <h1>Вариант 3</h1>
+    <h1>Студент: Меслауров Адам И., группа ИУ6-33Б, 25.11.22</h1>
+    <h2>Текст задания: Дан массив чисел arr_w. Определить минимум массива и поместить на место последнего отрицательного элемента. Если такого элемента нет, вставить элемент перед первым элементом массива</h2>
+    <%= yield %>
+    <% flash.each do |_type, msg| %>
+      <h2>Ошибка!</h2>
+      <h2>Код ошибки: <%= msg[0] %></h2>
+      <h2>Пояснение: <%= msg[1] %></h2>
+      <h2>Возможно этот символ в input вызвал ошибку: <%= msg[2] %></h2>
+    <% end %>
+  </body>
+</html>
