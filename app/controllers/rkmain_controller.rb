@@ -1,9 +1,10 @@
+# frozen_string_literal: true
+
 class RkmainController < ApplicationController
   before_action :set_input, only: :show
   before_action :check_input, only: :show
 
-  def input
-  end
+  def input; end
 
   def show
     # обработка согласно заданию
@@ -14,9 +15,9 @@ class RkmainController < ApplicationController
     @input_arr_min = @input_arr.min
 
     # поиск индекса последнего отрицательно числа
-    @last_negative_ind= nil
-    @last_negative_ind_ex = @input_arr.reverse.find_index { |el| el.negative? }
-    @last_negative_ind = (@last_negative_ind_ex + 1) * (-1) if @last_negative_ind_ex
+    @last_negative_ind = nil
+    @last_negative_ind_ex = @input_arr.reverse.find_index(&:negative?)
+    @last_negative_ind = (@last_negative_ind_ex + 1) * -1 if @last_negative_ind_ex
 
     @modified = @input_arr.clone
     if @last_negative_ind
@@ -29,23 +30,24 @@ class RkmainController < ApplicationController
   end
 
   private
+
   def set_input
     @input = params[:query]
   end
 
   def check_input
-    unless (@input.match?(/^[-. \d]+$/) && @input.match?(/[\d]/) \
-      && !@input.match?(/[\d][-]/) \
+    unless @input.match?(/^[-. \d]+$/) && @input.match?(/\d/) \
+      && !@input.match?(/\d-/) \
       && !@input.match?(/[.][^\d]/) \
       && !@input.match?(/[.]$/) \
       && !@input.match?(/^[.]/) \
-      && !@input.match?(/[-][^\d]/) \
-      && !@input.match?(/[-]$/) \
-      && !@input.match?(/^[-]/) \
-      && !@input.match?(/[-][.]/) \
-      && !@input.match?(/[.][-]/) \
-      && !@input.match?(/[-][-]+/) \
-      && !@input.match?(/[.][.]+/))
+      && !@input.match?(/-[^\d]/) \
+      && !@input.match?(/-$/) \
+      && !@input.match?(/^-/) \
+      && !@input.match?(/-[.]/) \
+      && !@input.match?(/[.]-/) \
+      && !@input.match?(/--+/) \
+      && !@input.match?(/[.][.]+/)
       check_input_all
     end
   end
@@ -55,16 +57,16 @@ class RkmainController < ApplicationController
       /^\s+$/,
       /,/,
       /[[:alpha:]]/,
-      /[\d][-]/,
+      /\d-/,
       /[.][^\d]/,
       /[.]$/,
       /^[.]/,
-      /[-][^\d]/,
-      /[-]$/,
-      /^[-]/,
-      /[-][.]/, 
-      /[.][-]/, 
-      /[-][-]+/,
+      /-[^\d]/,
+      /-$/,
+      /^-/,
+      /-[.]/,
+      /[.]-/,
+      /--+/,
       /[.][.]+/,
       /^.*$/
     ]
@@ -93,7 +95,7 @@ class RkmainController < ApplicationController
       @err_msg = @error_messages[@err_ind]
       @ind = @ind[0]
     end
-    
-    redirect_to(root_path, notice: [@code, @err_msg, @ind]) unless @code == 0
+
+    redirect_to(root_path, notice: [@code, @err_msg, @ind]) unless @code.zero?
   end
 end
