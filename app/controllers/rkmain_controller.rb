@@ -23,6 +23,7 @@ class RkmainController < ApplicationController
     if @last_negative_ind
       @modified[@last_negative_ind] = @input_arr_min
       # 1 2 3 4 -3 -5 -1 9
+      # hi
     else
       @modified = [@input_arr_min] + @input_arr
     end
